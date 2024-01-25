@@ -70,6 +70,7 @@ class ModuleNode(Node):
         self.input_shape: list[Tuple[int, ...]] = []
         self.output_shape: list[Tuple[int, ...]] = []
         self.output_nodes = NodeContainer() if output_nodes is None else output_nodes
+        self.metadata = None
         self.set_node_id()
 
     def set_input_shape(self, input_shape: list[Tuple[int, ...]]) -> None:
@@ -97,7 +98,8 @@ class ModuleNode(Node):
                 self.node_id = f'{self.compute_unit_id}-{output_id}'
             else:
                 self.node_id = f'{self.compute_unit_id}-'
-
+    def set_metadata(self, metadata: dict[str, Any]) -> None:
+        self.metadata = metadata
 
 class FunctionNode(Node):
     '''Subclass of node specialized for nodes
@@ -120,6 +122,7 @@ class FunctionNode(Node):
         self.output_shape: list[Tuple[int, ...]] = []
         self.set_node_id()
         self.output_nodes = self.children
+        self.metadata = None
 
     def set_input_shape(self, input_shape: list[Tuple[int, ...]]) -> None:
         self.input_shape = input_shape
@@ -140,3 +143,5 @@ class FunctionNode(Node):
             self.node_id = f'{id(self)}'
         else:
             self.node_id = f'{self.compute_unit_id}-{output_id}'
+    def set_metadata(self, metadata: dict[str, Any]) -> None:
+        self.metadata = metadata

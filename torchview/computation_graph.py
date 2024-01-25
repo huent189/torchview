@@ -389,13 +389,17 @@ class ComputationGraph:
                     <TABLE BORDER="{border}" CELLBORDER="{cell_bor}"
                     CELLSPACING="{cell_sp}" CELLPADDING="{cell_pad}">
                     <TR>
-                        <TD ROWSPAN="2">{node.name}<BR/>depth:{node.depth}</TD>
+                        <TD ROWSPAN="3">{node.name}<BR/>depth:{node.depth}</TD>
                         <TD COLSPAN="2">{input_str}:</TD>
                         <TD COLSPAN="2">{input_repr} </TD>
                     </TR>
                     <TR>
                         <TD COLSPAN="2">{output_str}: </TD>
                         <TD COLSPAN="2">{output_repr} </TD>
+                    </TR>
+                    <TR>
+                        <TD COLSPAN="2">Metadata </TD>
+                        <TD COLSPAN="2">{node.metadata} </TD>
                     </TR>
                     </TABLE>>'''
         else:

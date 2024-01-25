@@ -12,7 +12,7 @@ from .computation_node import ModuleNode, FunctionNode, TensorNode, NodeContaine
 from .computation_graph import ComputationGraph
 
 from .utils import OrderedSet
-
+from deepspeed.profiling.flops_profiler import get_module_duration, duration_to_string
 # Needed for module wrapper and resetting
 _orig_module_forward = torch.nn.Module.__call__
 
@@ -172,6 +172,8 @@ def module_forward_wrapper(model_graph: ComputationGraph) -> Callable[..., Any]:
             output_node.context = input_context
 
         cur_node.set_output_shape(reduce_data_info(out, collect_shape, []))
+        # TODO: maybe add metadata here
+        cur_node.set_metadata(duration_to_string(get_module_duration(mod)))
         return out
 
     return _module_forward_wrapper
@@ -277,7 +279,7 @@ class RecorderTensor(torch.Tensor):
             reduce_data_info([args, kwargs], collect_shape, [])
         )
         cur_node.set_output_shape(reduce_data_info(out, collect_shape, []))
-
+        # TODO: maybe add metadata here
         return out
 
 
